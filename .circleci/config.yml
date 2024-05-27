@@ -14,7 +14,7 @@ jobs:
             --form 'process_type='oaa'' \
             --form 'application_token='81b3e71657a58c54692d93ddcef52691'' \
             --form 'version_token='e646f58ae5b6f34499edb61801230752'' \
-            --form 'device_name='Galaxy Tab A7 Lite''"
+            --form 'device_name='Galaxy A34 5G''"
 workflows:
   build:
     jobs:
