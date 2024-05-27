@@ -8,30 +8,6 @@ jobs:
       - run:
           name: Run tests
           command: echo 'replace me with real tests!' && false
-
-  build:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      - run:
-          name: Build an artifact
-          command: touch example.txt
-      - store_artifacts:
-          path: example.txt
-
-  deploy:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - run:
-          name: Deploy
-          command: '#e.g. ./deploy.sh'
-
-  trigger-external-api:
-    docker:
-      - image: curlimages/curl:latest
-    steps:
       - run:
           name: Trigger External API
           command: |
