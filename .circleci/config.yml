@@ -1,0 +1,60 @@
+version: 2.1
+jobs:
+  test:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Run tests
+          command: echo 'replace me with real tests!' && false
+
+  build:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Build an artifact
+          command: touch example.txt
+      - store_artifacts:
+          path: example.txt
+
+  deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: Deploy
+          command: '#e.g. ./deploy.sh'
+
+  trigger-external-api:
+    docker:
+      - image: curlimages/curl:latest
+    steps:
+      - run:
+          name: Trigger External API
+          command: |
+            curl --location 'https://public.testgrid.io/api/app-build-run' \
+            --header 'Cookie: ci_session=0l9j7k8pa6qd7k2i7alhoi96cd5qeo5m' \
+            --form 'user_token="f7fvdxj9421psqou2296u0gjmneofz2t"' \
+            --form 'app_build_id="866"' \
+            --form 'version_module_id="19138"' \
+            --form 'process_type="oaa"' \
+            --form 'application_token="81b3e71657a58c54692d93ddcef52691"' \
+            --form 'version_token="e646f58ae5b6f34499edb61801230752"' \
+            --form 'device_name="Galaxy Tab A7 Lite"'
+
+workflows:
+  example:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+      - deploy:
+          requires:
+            - test
+      - trigger-external-api:
+          requires:
+            - build
