@@ -1,0 +1,26 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: cimg/node:14.11.0
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run:
+          name: "Install Dependencies"
+          command: sudo npm install -g TestGrid-Selenium and Appium-cli
+      - run:
+          name: "Run the test on TestGrid"
+          command: "curl --location 'https://public.testgrid.io/api/app-build-run' \
+--header 'Cookie: ci_session=0l9j7k8pa6qd7k2i7alhoi96cd5qeo5m' \
+--form 'user_token="f7fvdxj9421psqou2296u0gjmneofz2t"' \
+--form 'app_build_id="866"' \
+--form 'version_module_id="19138"' \
+--form 'process_type="oaa"' \
+--form 'application_token="81b3e71657a58c54692d93ddcef52691"' \
+--form 'version_token="e646f58ae5b6f34499edb61801230752"' \
+--form 'device_name="Galaxy Tab A7 Lite"'"
+workflows:
+  build:
+    jobs:
+      - build
